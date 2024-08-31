@@ -30,8 +30,8 @@ const CarouselCard = ({
 	img,
 	id,
 	incrementFactor,
-	onClick,
-}: ICardProps) => {
+}: // onClick,
+ICardProps) => {
 	const carouselId: string = 'carousel-card-' + id;
 	const [pos, setPos] = useState(id);
 	const [nextPos, setNextPos] = useState(id);
