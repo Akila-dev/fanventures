@@ -6,7 +6,6 @@ import { useAnimate, motion } from 'framer-motion';
 
 interface ICardProps {
 	img: string;
-	// currentPos: number;
 	initial: {
 		x: number | string;
 		y: number | string;
@@ -21,7 +20,7 @@ interface ICardProps {
 	}[];
 	id: number;
 	incrementFactor: number;
-	onClick: any;
+	// onClick: any;
 }
 
 const CarouselCard = ({
@@ -30,8 +29,7 @@ const CarouselCard = ({
 	img,
 	id,
 	incrementFactor,
-}: // onClick,
-ICardProps) => {
+}: ICardProps) => {
 	const carouselId: string = 'carousel-card-' + id;
 	const [pos, setPos] = useState(id);
 	const [nextPos, setNextPos] = useState(id);
