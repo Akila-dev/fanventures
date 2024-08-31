@@ -1,0 +1,217 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { useAnimate, motion } from 'framer-motion';
+
+interface ICardProps {
+	img: string;
+	// currentPos: number;
+	initial: {
+		x: number | string;
+		y: number | string;
+		scale: number;
+	};
+	// animate: {
+	// 	x: number | string;
+	// 	y: number | string;
+	// 	scale: number;
+	// };
+	positions: {
+		x: number | string;
+		y: number | string;
+		scale: number;
+	}[];
+	id: number;
+	incrementFactor: number;
+}
+
+const CarouselCard = ({
+	positions,
+	initial,
+	img,
+	id,
+	incrementFactor,
+}: ICardProps) => {
+	const carouselId: string = 'carousel-card-' + id;
+	const [pos, setPos] = useState(id);
+	const [nextPos, setNextPos] = useState(id);
+	const [scope, animate] = useAnimate();
+
+	useEffect(() => {
+		setNextPos(
+			id + incrementFactor < positions.length
+				? id + incrementFactor
+				: id + incrementFactor - positions.length
+		);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [incrementFactor]);
+
+	return (
+		<motion.div
+			ref={scope}
+			initial={{
+				x: initial.x,
+				y: initial.y,
+				scale: initial.scale,
+				z: initial.z,
+			}}
+			animate={{
+				x: positions[nextPos].x,
+				y: positions[nextPos].y,
+				scale: positions[nextPos].scale,
+				z: positions[nextPos].z,
+			}}
+			transition={{
+				type: 'spring',
+				duration: 0.75,
+				bounce: 0.25,
+			}}
+			// transition={{
+			// 	duration: 0.75,
+			// 	ease: 'circOut',
+			// }}
+			id={carouselId}
+			className={`h-[80%] w-[80%] md:w-auto absolute top-[7%] overflow-hidden ${
+				nextPos !== 0 &&
+				'shadow-xl shadow-black/20 rounded-[1rem] lg:rounded-[1.5rem]'
+			}`}
+		>
+			<Image
+				src={img}
+				alt="laptop"
+				width={750}
+				height={450}
+				className="w-auto h-full object-contain"
+			/>
+		</motion.div>
+	);
+};
+
+interface IPosition {
+	x: number | string;
+	y: number | string;
+	scale: number;
+	z: number;
+}
+
+const LaptopCarousel = () => {
+	const carouselImages: string[] = [
+		'/carouselImages/1.jpg',
+		'/carouselImages/2.jpg',
+		'/carouselImages/3.jpg',
+		'/carouselImages/4.jpg',
+		'/carouselImages/5.jpg',
+	];
+	// ! LIST OF POSITIONS FOR DESKTOP AND TABLETS
+	const positions: Array<IPosition> = [
+		{ x: 0, y: 0, scale: 1, z: 1 },
+		{ x: '73%', y: 0, scale: 0.35, z: 1 },
+		{ x: '90%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '-91.5%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '-74.5%', y: 0, scale: 0.375, z: 1 },
+	];
+	// ! LIST OF POSITIONS FOR MOBILLE
+	const mobilePositions: Array<IPosition> = [
+		{ x: 0, y: 4, scale: 0.75, z: 1 },
+		{ x: '63%', y: 0, scale: 0.35, z: 1 },
+		{ x: '30%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '-31.5%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '-64.5%', y: 0, scale: 0.375, z: 1 },
+	];
+	const [incrementFactor, setIncrementFactor] = useState(0);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (incrementFactor + 1 < positions.length) {
+				setIncrementFactor(incrementFactor + 1);
+			} else {
+				setIncrementFactor(0);
+			}
+		}, 5000);
+		return () => clearInterval(interval);
+	}, [incrementFactor, positions.length]);
+
+	return (
+		<div className="w-full overflow-hidden">
+			<div className="px-5 md:px-[3rem] xl:px-[4rem] max-w-[1240px] mx-auto">
+				<div className="h-[40vh] max-h-[295px] md:h-[50vh] md:max-h-[350px] lg:h-[65vh] lg:max-h-[450px] w-full">
+					{/* DESKTOP CAROUSEL */}
+					<div
+						className="hidden md:flex h-[90%] w-full justify-center relative"
+						style={{
+							perspective: '500px',
+							transformStyle: 'preserve-3d',
+							perspectiveOrigin: 'center center',
+						}}
+					>
+						<Image
+							src="/imgs/laptop.png"
+							alt="laptop"
+							width={750}
+							height={450}
+							className="w-auto h-full object-contain"
+						/>
+						{/* SLIDER IMAGES */}
+						{carouselImages.map((img: string, i: number) => (
+							<CarouselCard
+								key={i}
+								positions={positions}
+								initial={positions[i]}
+								incrementFactor={incrementFactor}
+								id={i}
+								img={img}
+							/>
+						))}
+					</div>
+
+					{/* MOBILE CAROUSEL */}
+					<div
+						className="flex md:hidden h-[90%] w-full justify-center relative"
+						style={{
+							perspective: '500px',
+							transformStyle: 'preserve-3d',
+							perspectiveOrigin: 'center center',
+						}}
+					>
+						<Image
+							src="/imgs/laptop.png"
+							alt="laptop"
+							width={750}
+							height={450}
+							className="w-[80%] h-full object-contain"
+						/>
+						{/* SLIDER IMAGES */}
+						{carouselImages.map((img: string, i: number) => (
+							<CarouselCard
+								key={i}
+								positions={mobilePositions}
+								initial={mobilePositions[i]}
+								incrementFactor={incrementFactor}
+								id={i}
+								img={img}
+							/>
+						))}
+					</div>
+
+					{/* NAVIGATION DOTS */}
+					<div className="h-[10%] flex items-center justify-center gap-1">
+						{positions.map((_, i: number) => (
+							<div
+								key={i}
+								className={` h-[10px] rounded-full transition-all duration-700 ${
+									i === incrementFactor
+										? 'w-[20px] bg-[--brand]'
+										: 'w-[10px]  bg-[--neutral]'
+								}`}
+							/>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default LaptopCarousel;
