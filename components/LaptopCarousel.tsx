@@ -21,6 +21,7 @@ interface ICardProps {
 	}[];
 	id: number;
 	incrementFactor: number;
+	onClick: any;
 }
 
 const CarouselCard = ({
@@ -29,6 +30,7 @@ const CarouselCard = ({
 	img,
 	id,
 	incrementFactor,
+	onClick,
 }: ICardProps) => {
 	const carouselId: string = 'carousel-card-' + id;
 	const [pos, setPos] = useState(id);
@@ -65,12 +67,13 @@ const CarouselCard = ({
 				duration: 0.75,
 				bounce: 0.25,
 			}}
+			onClick={(e) => onClick(nextPos, e)}
 			// transition={{
 			// 	duration: 0.75,
 			// 	ease: 'circOut',
 			// }}
 			id={carouselId}
-			className={`h-[80%] w-auto md:w-auto absolute top-[7%] overflow-hidden ${
+			className={`h-[80%] w-auto  md:w-auto absolute top-[7%] overflow-hidden ${
 				nextPos !== 0 &&
 				'shadow-xl shadow-black/20 rounded-[1rem] lg:rounded-[1.5rem]'
 			}`}
@@ -111,7 +114,7 @@ const LaptopCarousel = () => {
 	];
 	// ! LIST OF POSITIONS FOR MOBILLE
 	const mobilePositions: Array<IPosition> = [
-		{ x: 0, y: 4, scale: 0.65, z: 1 },
+		{ x: 0, y: 4, scale: 0.6, z: 1 },
 		{ x: '58%', y: 0, scale: 0.35, z: 1 },
 		{ x: '30%', y: '-40%', scale: 0.285, z: -10 },
 		{ x: '-31.5%', y: '-40%', scale: 0.285, z: -10 },
@@ -130,15 +133,25 @@ const LaptopCarousel = () => {
 		return () => clearInterval(interval);
 	}, [incrementFactor, positions.length]);
 
-	const navigateTo = (x) => {
+	const navigateTo = (x, e) => {
+		e.preventDefault();
 		if (incrementFactor > x) {
-			for (let i = 0; i < incrementFactor - x; i++) {
+			let diff: number = incrementFactor - x;
+			while (diff !== 0) {
 				if (incrementFactor - 1 >= 0) {
 					setIncrementFactor(incrementFactor - 1);
 				} else {
 					setIncrementFactor(positions.length);
 				}
+				diff--;
 			}
+			// for (let i = 0; i < incrementFactor - x; i++) {
+			// 	if (incrementFactor - 1 >= 0) {
+			// 		setIncrementFactor(incrementFactor - 1);
+			// 	} else {
+			// 		setIncrementFactor(positions.length);
+			// 	}
+			// }
 		} else {
 			for (let i = 0; i < x - incrementFactor; i++) {
 				if (incrementFactor + 1 < positions.length) {
@@ -153,7 +166,7 @@ const LaptopCarousel = () => {
 	return (
 		<div className="w-full overflow-hidden">
 			<div className="px-5 md:px-[3rem] xl:px-[4rem] max-w-[1240px] mx-auto">
-				<div className="h-[40vh] min-h-[200px] max-h-[295px] md:h-[50vh] md:max-h-[350px] lg:h-[65vh] lg:max-h-[450px] w-full">
+				<div className="h-[80vw] md:h-[50vh] md:max-h-[350px] lg:h-[65vh] lg:max-h-[450px] w-full">
 					{/* DESKTOP CAROUSEL */}
 					<div
 						className="hidden md:flex h-[90%] w-full justify-center relative"
@@ -179,13 +192,14 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
+								onClick={navigateTo}
 							/>
 						))}
 					</div>
 
 					{/* MOBILE CAROUSEL */}
 					<div
-						className="flex md:hidden h-[90%] w-full justify-center items-center relative"
+						className="flex md:hidden h-[90%] w-full justify-center items-center relative px- md:px-0"
 						style={{
 							perspective: '500px',
 							transformStyle: 'preserve-3d',
@@ -197,7 +211,7 @@ const LaptopCarousel = () => {
 							alt="laptop"
 							width={750}
 							height={450}
-							className="w-[80%] h-full max-w-[225px] object-contain"
+							className="w-[80%] h-full object-contain "
 						/>
 						{/* SLIDER IMAGES */}
 						{carouselImages.map((img: string, i: number) => (
@@ -208,6 +222,7 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
+								onClick={navigateTo}
 							/>
 						))}
 					</div>
@@ -217,7 +232,7 @@ const LaptopCarousel = () => {
 						{positions.map((_, i: number) => (
 							<div
 								key={i}
-								onClick={() => navigateTo(i)}
+								onClick={(e) => navigateTo(i, e)}
 								className={`h-[8px] md:h-[10px] rounded-full transition-all duration-700 cursor-pointer ${
 									i === incrementFactor
 										? 'w-[16px] md:w-[20px] bg-[--brand]'
