@@ -111,10 +111,10 @@ const LaptopCarousel = () => {
 	// ! LIST OF POSITIONS FOR MOBILLE
 	const mobilePositions: Array<IPosition> = [
 		{ x: 0, y: 4, scale: 0.6, z: 1 },
-		{ x: '58%', y: 0, scale: 0.35, z: 1 },
+		{ x: '58%', y: 4, scale: 0.35, z: 1 },
 		{ x: '30%', y: '-40%', scale: 0.285, z: -10 },
 		{ x: '-31.5%', y: '-40%', scale: 0.285, z: -10 },
-		{ x: '-60.5%', y: 0, scale: 0.375, z: 1 },
+		{ x: '-60.5%', y: 4, scale: 0.375, z: 1 },
 	];
 	const [incrementFactor, setIncrementFactor] = useState(0);
 
@@ -210,7 +210,7 @@ const LaptopCarousel = () => {
 							alt="laptop"
 							width={750}
 							height={450}
-							className="w-[80%] h-full object-contain "
+							className="w-[80%] h-auto object-contain "
 						/>
 						{/* SLIDER IMAGES */}
 						{carouselImages.map((img: string, i: number) => (
