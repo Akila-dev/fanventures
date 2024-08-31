@@ -212,7 +212,7 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
-								onClick={(e) => navigateTo(listedPoints[i], e)}
+								onClick={(e: any) => navigateTo(listedPoints[i], e)}
 							/>
 						))}
 					</div>
@@ -242,7 +242,7 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
-								onClick={(e) => navigateTo(listedPoints[i], e)}
+								onClick={(e: any) => navigateTo(listedPoints[i], e)}
 							/>
 						))}
 					</div>
@@ -252,7 +252,7 @@ const LaptopCarousel = () => {
 						{positions.map((_, i: number) => (
 							<div
 								key={i}
-								onClick={(e) => navigateTo(i, e)}
+								onClick={(e: any) => navigateTo(i, e)}
 								className={`h-[8px] md:h-[10px] rounded-full transition-all duration-700 cursor-pointer  ${
 									i === incrementFactor
 										? 'w-[16px] md:w-[20px] bg-[--brand]'
