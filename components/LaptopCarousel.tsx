@@ -133,7 +133,7 @@ const LaptopCarousel = () => {
 		return () => clearInterval(interval);
 	}, [incrementFactor, positions.length]);
 
-	const navigateTo = (x, e) => {
+	const navigateTo = (x: any, e: any) => {
 		e.preventDefault();
 		if (incrementFactor > x) {
 			let diff: number = incrementFactor - x;
