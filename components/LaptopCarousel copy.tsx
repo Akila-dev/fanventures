@@ -6,18 +6,12 @@ import { useAnimate, motion } from 'framer-motion';
 
 interface ICardProps {
 	img: string;
-	// currentPos: number;
 	initial: {
 		x: number | string;
 		y: number | string;
 		scale: number;
 		z: number;
 	};
-	// animate: {
-	// 	x: number | string;
-	// 	y: number | string;
-	// 	scale: number;
-	// };
 	positions: {
 		x: number | string;
 		y: number | string;
@@ -26,6 +20,7 @@ interface ICardProps {
 	}[];
 	id: number;
 	incrementFactor: number;
+	// onClick: any;
 }
 
 const CarouselCard = ({
@@ -70,13 +65,17 @@ const CarouselCard = ({
 				duration: 0.75,
 				bounce: 0.25,
 			}}
+			// onClick={onClick}
+			// onClick={(e) => onClick(id, e)}
+			// onClick={(e) => onClick(nextPos, e)}
 			// transition={{
 			// 	duration: 0.75,
 			// 	ease: 'circOut',
 			// }}
 			id={carouselId}
-			className={`h-[80%] w-auto absolute top-[7%] overflow-hidden ${
-				nextPos !== 0 && 'shadow-xl shadow-black/20 rounded-[1.5rem]'
+			className={`h-[80%] w-auto  md:w-auto absolute top-[7%] overflow-hidden ${
+				nextPos !== 0 &&
+				'shadow-xl shadow-black/20 rounded-[1rem] lg:rounded-[1.5rem]'
 			}`}
 		>
 			<Image
@@ -105,12 +104,21 @@ const LaptopCarousel = () => {
 		'/carouselImages/4.jpg',
 		'/carouselImages/5.jpg',
 	];
+	// ! LIST OF POSITIONS FOR DESKTOP AND TABLETS
 	const positions: Array<IPosition> = [
 		{ x: 0, y: 0, scale: 1, z: 1 },
 		{ x: '73%', y: 0, scale: 0.35, z: 1 },
 		{ x: '90%', y: '-40%', scale: 0.285, z: -10 },
 		{ x: '-91.5%', y: '-40%', scale: 0.285, z: -10 },
 		{ x: '-74.5%', y: 0, scale: 0.375, z: 1 },
+	];
+	// ! LIST OF POSITIONS FOR MOBILLE
+	const mobilePositions: Array<IPosition> = [
+		{ x: 0, y: 4, scale: 0.6, z: 1 },
+		{ x: '58%', y: 0, scale: 0.35, z: 1 },
+		{ x: '30%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '-31.5%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '-60.5%', y: 0, scale: 0.375, z: 1 },
 	];
 	const [incrementFactor, setIncrementFactor] = useState(0);
 
@@ -125,12 +133,61 @@ const LaptopCarousel = () => {
 		return () => clearInterval(interval);
 	}, [incrementFactor, positions.length]);
 
+	const navigateTo = (x: any, e: any) => {
+		e.preventDefault();
+		let speed: number = 150;
+		// let diff: number = Math.abs(incrementFactor - x);
+
+		if (incrementFactor > x) {
+			let diff: number = incrementFactor - x;
+			const interval = setInterval(() => {
+				if (incrementFactor - 1 >= 0) {
+					setIncrementFactor((prevState) => prevState - 1);
+				} else {
+					setIncrementFactor(positions.length);
+				}
+				diff - 1;
+			}, speed);
+			setTimeout(() => {
+				clearInterval(interval);
+			}, speed * diff);
+			// if (incrementFactor - 1 >= 0) {
+
+			// 	setIncrementFactor(incrementFactor - 1);
+			// } else {
+			// 	setIncrementFactor(positions.length);
+			// }
+		} else {
+			let diff: number = x - incrementFactor;
+			const interval = setInterval(() => {
+				if (incrementFactor + 1 < positions.length) {
+					setIncrementFactor((prevState) => prevState + 1);
+				} else {
+					setIncrementFactor(0);
+				}
+				diff - 1;
+			}, speed);
+			setTimeout(() => {
+				clearInterval(interval);
+			}, speed * diff);
+
+			// for (let i = 0; i < x - incrementFactor; i++) {
+			// 	if (incrementFactor + 1 < positions.length) {
+			// 		setIncrementFactor(incrementFactor + 1);
+			// 	} else {
+			// 		setIncrementFactor(0);
+			// 	}
+			// }
+		}
+	};
+
 	return (
 		<div className="w-full overflow-hidden">
 			<div className="px-5 md:px-[3rem] xl:px-[4rem] max-w-[1240px] mx-auto">
-				<div className="h-[65vh] max-h-[450px] w-full">
+				<div className="h-[80vw] md:h-[50vh] md:max-h-[350px] lg:h-[65vh] lg:max-h-[450px] w-full">
+					{/* DESKTOP CAROUSEL */}
 					<div
-						className="h-[90%] w-full flex justify-center relative"
+						className="hidden md:flex h-[90%] w-full justify-center relative"
 						style={{
 							perspective: '500px',
 							transformStyle: 'preserve-3d',
@@ -150,25 +207,54 @@ const LaptopCarousel = () => {
 								key={i}
 								positions={positions}
 								initial={positions[i]}
-								// animate={
-								// 	i + incrementFactor < positions.length
-								// 		? positions[i + incrementFactor]
-								// 		: positions[i + incrementFactor - positions.length]
-								// }
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
+								// onClick={(e) => navigateTo(i, e)}
 							/>
 						))}
 					</div>
-					<div className="h-[10%] flex items-center justify-center gap-1">
+
+					{/* MOBILE CAROUSEL */}
+					<div
+						className="flex md:hidden h-[90%] w-full justify-center items-center relative px- md:px-0"
+						style={{
+							perspective: '500px',
+							transformStyle: 'preserve-3d',
+							perspectiveOrigin: 'center center',
+						}}
+					>
+						<Image
+							src="/imgs/laptop.png"
+							alt="laptop"
+							width={750}
+							height={450}
+							className="w-[80%] h-full object-contain "
+						/>
+						{/* SLIDER IMAGES */}
+						{carouselImages.map((img: string, i: number) => (
+							<CarouselCard
+								key={i}
+								positions={mobilePositions}
+								initial={mobilePositions[i]}
+								incrementFactor={incrementFactor}
+								id={i}
+								img={img}
+								// onClick={(e) => navigateTo(i, e)}
+							/>
+						))}
+					</div>
+
+					{/* NAVIGATION DOTS */}
+					<div className="h-[10%] flex items-center justify-center gap-[6px]">
 						{positions.map((_, i: number) => (
 							<div
 								key={i}
-								className={` h-[10px] rounded-full transition-all duration-700 cursor-pointer ${
+								onClick={(e) => navigateTo(i, e)}
+								className={`h-[8px] md:h-[10px] rounded-full transition-all duration-700 cursor-pointer  ${
 									i === incrementFactor
-										? 'w-[20px] bg-[--brand]'
-										: 'w-[10px]  bg-[--neutral]'
+										? 'w-[16px] md:w-[20px] bg-[--brand]'
+										: 'w-[8px] md:w-[10px]  bg-[--neutral] hover:scale-125 hover:bg-[--brandOpacity]'
 								}`}
 							/>
 						))}

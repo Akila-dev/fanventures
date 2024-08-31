@@ -20,7 +20,7 @@ interface ICardProps {
 	}[];
 	id: number;
 	incrementFactor: number;
-	// onClick: any;
+	onClick: any;
 }
 
 const CarouselCard = ({
@@ -29,6 +29,7 @@ const CarouselCard = ({
 	img,
 	id,
 	incrementFactor,
+	onClick,
 }: ICardProps) => {
 	const carouselId: string = 'carousel-card-' + id;
 	const [pos, setPos] = useState(id);
@@ -65,7 +66,7 @@ const CarouselCard = ({
 				duration: 0.75,
 				bounce: 0.25,
 			}}
-			// onClick={onClick}
+			onClick={onClick}
 			// onClick={(e) => onClick(id, e)}
 			// onClick={(e) => onClick(nextPos, e)}
 			// transition={{
@@ -104,6 +105,7 @@ const LaptopCarousel = () => {
 		'/carouselImages/4.jpg',
 		'/carouselImages/5.jpg',
 	];
+	const listedPoints = [0, 4, 3, 2, 1];
 	// ! LIST OF POSITIONS FOR DESKTOP AND TABLETS
 	const positions: Array<IPosition> = [
 		{ x: 0, y: 0, scale: 1, z: 1 },
@@ -210,7 +212,7 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
-								// onClick={(e) => navigateTo(i, e)}
+								onClick={(e) => navigateTo(listedPoints[i], e)}
 							/>
 						))}
 					</div>
@@ -240,7 +242,7 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
-								// onClick={(e) => navigateTo(i, e)}
+								onClick={(e) => navigateTo(listedPoints[i], e)}
 							/>
 						))}
 					</div>
