@@ -67,7 +67,9 @@ const CarouselCard = ({
 				duration: 0.75,
 				bounce: 0.25,
 			}}
-			onClick={(e) => onClick(nextPos, e)}
+			// onClick={onClick}
+			// onClick={(e) => onClick(id, e)}
+			// onClick={(e) => onClick(nextPos, e)}
 			// transition={{
 			// 	duration: 0.75,
 			// 	ease: 'circOut',
@@ -135,31 +137,49 @@ const LaptopCarousel = () => {
 
 	const navigateTo = (x: any, e: any) => {
 		e.preventDefault();
+		let speed: number = 150;
+		// let diff: number = Math.abs(incrementFactor - x);
+
 		if (incrementFactor > x) {
 			let diff: number = incrementFactor - x;
-			while (diff !== 0) {
+			const interval = setInterval(() => {
 				if (incrementFactor - 1 >= 0) {
-					setIncrementFactor(incrementFactor - 1);
+					setIncrementFactor((prevState) => prevState - 1);
 				} else {
 					setIncrementFactor(positions.length);
 				}
-				diff--;
-			}
-			// for (let i = 0; i < incrementFactor - x; i++) {
-			// 	if (incrementFactor - 1 >= 0) {
-			// 		setIncrementFactor(incrementFactor - 1);
-			// 	} else {
-			// 		setIncrementFactor(positions.length);
-			// 	}
+				diff - 1;
+			}, speed);
+			setTimeout(() => {
+				clearInterval(interval);
+			}, speed * diff);
+			// if (incrementFactor - 1 >= 0) {
+
+			// 	setIncrementFactor(incrementFactor - 1);
+			// } else {
+			// 	setIncrementFactor(positions.length);
 			// }
 		} else {
-			for (let i = 0; i < x - incrementFactor; i++) {
+			let diff: number = x - incrementFactor;
+			const interval = setInterval(() => {
 				if (incrementFactor + 1 < positions.length) {
-					setIncrementFactor(incrementFactor + 1);
+					setIncrementFactor((prevState) => prevState + 1);
 				} else {
 					setIncrementFactor(0);
 				}
-			}
+				diff - 1;
+			}, speed);
+			setTimeout(() => {
+				clearInterval(interval);
+			}, speed * diff);
+
+			// for (let i = 0; i < x - incrementFactor; i++) {
+			// 	if (incrementFactor + 1 < positions.length) {
+			// 		setIncrementFactor(incrementFactor + 1);
+			// 	} else {
+			// 		setIncrementFactor(0);
+			// 	}
+			// }
 		}
 	};
 
@@ -192,7 +212,7 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
-								onClick={navigateTo}
+								// onClick={(e) => navigateTo(i, e)}
 							/>
 						))}
 					</div>
@@ -222,7 +242,7 @@ const LaptopCarousel = () => {
 								incrementFactor={incrementFactor}
 								id={i}
 								img={img}
-								onClick={navigateTo}
+								// onClick={(e) => navigateTo(i, e)}
 							/>
 						))}
 					</div>
@@ -233,10 +253,10 @@ const LaptopCarousel = () => {
 							<div
 								key={i}
 								onClick={(e) => navigateTo(i, e)}
-								className={`h-[8px] md:h-[10px] rounded-full transition-all duration-700 cursor-pointer ${
+								className={`h-[8px] md:h-[10px] rounded-full transition-all duration-700 cursor-pointer  ${
 									i === incrementFactor
 										? 'w-[16px] md:w-[20px] bg-[--brand]'
-										: 'w-[8px] md:w-[10px]  bg-[--neutral]'
+										: 'w-[8px] md:w-[10px]  bg-[--neutral] hover:scale-125 hover:bg-[--brandOpacity]'
 								}`}
 							/>
 						))}
