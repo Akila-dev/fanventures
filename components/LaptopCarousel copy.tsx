@@ -165,7 +165,7 @@ const LaptopCarousel = () => {
 						{positions.map((_, i: number) => (
 							<div
 								key={i}
-								className={` h-[10px] rounded-full transition-all duration-700 ${
+								className={` h-[10px] rounded-full transition-all duration-700 cursor-pointer ${
 									i === incrementFactor
 										? 'w-[20px] bg-[--brand]'
 										: 'w-[10px]  bg-[--neutral]'

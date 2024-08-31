@@ -70,7 +70,7 @@ const CarouselCard = ({
 			// 	ease: 'circOut',
 			// }}
 			id={carouselId}
-			className={`h-[80%] w-[80%] md:w-auto absolute top-[7%] overflow-hidden ${
+			className={`h-[80%] w-auto md:w-auto absolute top-[7%] overflow-hidden ${
 				nextPos !== 0 &&
 				'shadow-xl shadow-black/20 rounded-[1rem] lg:rounded-[1.5rem]'
 			}`}
@@ -111,11 +111,11 @@ const LaptopCarousel = () => {
 	];
 	// ! LIST OF POSITIONS FOR MOBILLE
 	const mobilePositions: Array<IPosition> = [
-		{ x: 0, y: 4, scale: 0.75, z: 1 },
-		{ x: '63%', y: 0, scale: 0.35, z: 1 },
+		{ x: 0, y: 4, scale: 0.65, z: 1 },
+		{ x: '58%', y: 0, scale: 0.35, z: 1 },
 		{ x: '30%', y: '-40%', scale: 0.285, z: -10 },
 		{ x: '-31.5%', y: '-40%', scale: 0.285, z: -10 },
-		{ x: '-64.5%', y: 0, scale: 0.375, z: 1 },
+		{ x: '-60.5%', y: 0, scale: 0.375, z: 1 },
 	];
 	const [incrementFactor, setIncrementFactor] = useState(0);
 
@@ -165,7 +165,7 @@ const LaptopCarousel = () => {
 
 					{/* MOBILE CAROUSEL */}
 					<div
-						className="flex md:hidden h-[90%] w-full justify-center relative"
+						className="flex md:hidden h-[90%] w-full justify-center items-center relative"
 						style={{
 							perspective: '500px',
 							transformStyle: 'preserve-3d',
@@ -177,7 +177,7 @@ const LaptopCarousel = () => {
 							alt="laptop"
 							width={750}
 							height={450}
-							className="w-[80%] h-full object-contain"
+							className="w-[80%] h-full max-w-[225px] object-contain"
 						/>
 						{/* SLIDER IMAGES */}
 						{carouselImages.map((img: string, i: number) => (
@@ -193,14 +193,14 @@ const LaptopCarousel = () => {
 					</div>
 
 					{/* NAVIGATION DOTS */}
-					<div className="h-[10%] flex items-center justify-center gap-1">
+					<div className="h-[10%] flex items-center justify-center gap-[6px]">
 						{positions.map((_, i: number) => (
 							<div
 								key={i}
-								className={` h-[10px] rounded-full transition-all duration-700 ${
+								className={`h-[8px] md:h-[10px] rounded-full transition-all duration-700 cursor-pointer ${
 									i === incrementFactor
-										? 'w-[20px] bg-[--brand]'
-										: 'w-[10px]  bg-[--neutral]'
+										? 'w-[16px] md:w-[20px] bg-[--brand]'
+										: 'w-[8px] md:w-[10px]  bg-[--neutral]'
 								}`}
 							/>
 						))}
