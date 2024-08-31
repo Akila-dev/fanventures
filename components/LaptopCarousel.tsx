@@ -112,8 +112,8 @@ const LaptopCarousel = () => {
 	const mobilePositions: Array<IPosition> = [
 		{ x: 0, y: 4, scale: 0.6, z: 1 },
 		{ x: '58%', y: 4, scale: 0.35, z: 1 },
-		{ x: '30%', y: '-40%', scale: 0.285, z: -10 },
-		{ x: '-31.5%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '30%', y: '-50%', scale: 0.285, z: -100 },
+		{ x: '-31.5%', y: '-50%', scale: 0.285, z: -100 },
 		{ x: '-60.5%', y: 4, scale: 0.375, z: 1 },
 	];
 	const [incrementFactor, setIncrementFactor] = useState(0);
