@@ -130,10 +130,30 @@ const LaptopCarousel = () => {
 		return () => clearInterval(interval);
 	}, [incrementFactor, positions.length]);
 
+	const navigateTo = (x) => {
+		if (incrementFactor > x) {
+			for (let i = 0; i < incrementFactor - x; i++) {
+				if (incrementFactor - 1 >= 0) {
+					setIncrementFactor(incrementFactor - 1);
+				} else {
+					setIncrementFactor(positions.length);
+				}
+			}
+		} else {
+			for (let i = 0; i < x - incrementFactor; i++) {
+				if (incrementFactor + 1 < positions.length) {
+					setIncrementFactor(incrementFactor + 1);
+				} else {
+					setIncrementFactor(0);
+				}
+			}
+		}
+	};
+
 	return (
 		<div className="w-full overflow-hidden">
 			<div className="px-5 md:px-[3rem] xl:px-[4rem] max-w-[1240px] mx-auto">
-				<div className="h-[40vh] max-h-[295px] md:h-[50vh] md:max-h-[350px] lg:h-[65vh] lg:max-h-[450px] w-full">
+				<div className="h-[40vh] min-h-[200px] max-h-[295px] md:h-[50vh] md:max-h-[350px] lg:h-[65vh] lg:max-h-[450px] w-full">
 					{/* DESKTOP CAROUSEL */}
 					<div
 						className="hidden md:flex h-[90%] w-full justify-center relative"
@@ -197,6 +217,7 @@ const LaptopCarousel = () => {
 						{positions.map((_, i: number) => (
 							<div
 								key={i}
+								onClick={() => navigateTo(i)}
 								className={`h-[8px] md:h-[10px] rounded-full transition-all duration-700 cursor-pointer ${
 									i === incrementFactor
 										? 'w-[16px] md:w-[20px] bg-[--brand]'
