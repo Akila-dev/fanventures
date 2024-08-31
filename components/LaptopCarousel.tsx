@@ -21,6 +21,7 @@ interface ICardProps {
 		x: number | string;
 		y: number | string;
 		scale: number;
+		z: number;
 	}[];
 	id: number;
 	incrementFactor: number;
