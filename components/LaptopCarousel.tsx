@@ -67,12 +67,6 @@ const CarouselCard = ({
 				bounce: 0.25,
 			}}
 			onClick={onClick}
-			// onClick={(e) => onClick(id, e)}
-			// onClick={(e) => onClick(nextPos, e)}
-			// transition={{
-			// 	duration: 0.75,
-			// 	ease: 'circOut',
-			// }}
 			id={carouselId}
 			className={`h-[80%] w-auto  md:w-auto absolute top-[7%] overflow-hidden cursor-pointer ${
 				nextPos !== 0 &&
@@ -138,7 +132,6 @@ const LaptopCarousel = () => {
 	const navigateTo: any = (x: any, e: any) => {
 		e.preventDefault();
 		let speed: number = 150;
-		// let diff: number = Math.abs(incrementFactor - x);
 
 		if (incrementFactor > x) {
 			let diff: number = incrementFactor - x;
@@ -153,12 +146,6 @@ const LaptopCarousel = () => {
 			setTimeout(() => {
 				clearInterval(interval);
 			}, speed * diff);
-			// if (incrementFactor - 1 >= 0) {
-
-			// 	setIncrementFactor(incrementFactor - 1);
-			// } else {
-			// 	setIncrementFactor(positions.length);
-			// }
 		} else {
 			let diff: number = x - incrementFactor;
 			const interval = setInterval(() => {
@@ -172,14 +159,6 @@ const LaptopCarousel = () => {
 			setTimeout(() => {
 				clearInterval(interval);
 			}, speed * diff);
-
-			// for (let i = 0; i < x - incrementFactor; i++) {
-			// 	if (incrementFactor + 1 < positions.length) {
-			// 		setIncrementFactor(incrementFactor + 1);
-			// 	} else {
-			// 		setIncrementFactor(0);
-			// 	}
-			// }
 		}
 	};
 
