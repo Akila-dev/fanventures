@@ -135,7 +135,7 @@ const LaptopCarousel = () => {
 		return () => clearInterval(interval);
 	}, [incrementFactor, positions.length]);
 
-	const navigateTo = (x: any, e: any) => {
+	const navigateTo: any = (x: any, e: any) => {
 		e.preventDefault();
 		let speed: number = 150;
 		// let diff: number = Math.abs(incrementFactor - x);
