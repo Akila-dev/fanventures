@@ -13,11 +13,6 @@ interface ICardProps {
 		scale: number;
 		z: number;
 	};
-	// animate: {
-	// 	x: number | string;
-	// 	y: number | string;
-	// 	scale: number;
-	// };
 	positions: {
 		x: number | string;
 		y: number | string;
