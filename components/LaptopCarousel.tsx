@@ -74,7 +74,7 @@ const CarouselCard = ({
 			// 	ease: 'circOut',
 			// }}
 			id={carouselId}
-			className={`h-[80%] w-auto  md:w-auto absolute top-[7%] overflow-hidden ${
+			className={`h-[80%] w-auto  md:w-auto absolute top-[7%] overflow-hidden cursor-pointer ${
 				nextPos !== 0 &&
 				'shadow-xl shadow-black/20 rounded-[1rem] lg:rounded-[1.5rem]'
 			}`}
