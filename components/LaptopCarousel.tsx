@@ -2,87 +2,31 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useAnimate, motion } from 'framer-motion';
+import { useAnimate, motion, AnimatePresence } from 'framer-motion';
+import LaptopCarouselCard from '@/components/LaptopCarouselCard';
 
-interface ICardProps {
-	img: string;
-	initial: {
-		x: number | string;
-		y: number | string;
-		scale: number;
-		z: number;
-	};
-	positions: {
-		x: number | string;
-		y: number | string;
-		scale: number;
-		z: number;
-	}[];
-	id: number;
-	incrementFactor: number;
-	onClick: any;
-}
-
-const CarouselCard = ({
-	positions,
-	initial,
-	img,
-	id,
-	incrementFactor,
-	onClick,
-}: ICardProps) => {
-	const carouselId: string = 'carousel-card-' + id;
-	const [pos, setPos] = useState(id);
-	const [nextPos, setNextPos] = useState(id);
-	const [scope, animate] = useAnimate();
-
-	useEffect(() => {
-		setNextPos(
-			id + incrementFactor < positions.length
-				? id + incrementFactor
-				: id + incrementFactor - positions.length
-		);
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [incrementFactor]);
-
-	return (
-		<motion.div
-			ref={scope}
-			initial={{
-				x: initial.x,
-				y: initial.y,
-				scale: initial.scale,
-				z: initial.z,
-			}}
-			animate={{
-				x: positions[nextPos].x,
-				y: positions[nextPos].y,
-				scale: positions[nextPos].scale,
-				z: positions[nextPos].z,
-			}}
-			transition={{
-				type: 'spring',
-				duration: 0.75,
-				bounce: 0.25,
-			}}
-			onClick={onClick}
-			id={carouselId}
-			className={`h-[80%] w-auto  md:w-auto absolute top-[7%] overflow-hidden cursor-pointer ${
-				nextPos !== 0 &&
-				'shadow-xl shadow-black/20 rounded-[1rem] lg:rounded-[1.5rem]'
-			}`}
-		>
-			<Image
-				src={img}
-				alt="laptop"
-				width={750}
-				height={450}
-				className="w-auto h-full object-contain"
-			/>
-		</motion.div>
-	);
-};
+const textData: { heading: string; test: string }[] = [
+	{
+		heading: 'search',
+		text: 'Discover exciting investment opportunities by browsing creator fundraising campaigns. Investors can explore various campaigns where creators offer a share of their future income, making it easy to find the right investment.',
+	},
+	{
+		heading: 'Dashboard',
+		text: 'A personalized dashboard to oversee all activities. Creators can manage their finances and launch campaigns, while investors monitor their portfolios, manage investments and keep a watchlist of promising opportunities.',
+	},
+	{
+		heading: 'Analytics',
+		text: 'Access detailed data about creators and their performance over time. View key metrics such as views, subscribers, video count, watch hours, and income statistics to make informed investment decisions.',
+	},
+	{
+		heading: 'Social Proof Investing',
+		text: 'Leverage community insights to guide your investments. Investors can rate investment opportunities, leave comments, and connect with others to share ideas and experiences, fostering informed and collaborative investing.',
+	},
+	{
+		heading: 'Payment Gate',
+		text: "Enjoy a seamless payment experience with multiple options, including FanVentures' own account balance, credit card, Google Pay and Apple Pay. Make instant top-ups and withdraw funds with ease at any time.",
+	},
+];
 
 interface IPosition {
 	x: number | string;
@@ -103,10 +47,10 @@ const LaptopCarousel = () => {
 	// ! LIST OF POSITIONS FOR DESKTOP AND TABLETS
 	const positions: Array<IPosition> = [
 		{ x: 0, y: 0, scale: 1, z: 1 },
-		{ x: '73%', y: 0, scale: 0.35, z: 1 },
-		{ x: '90%', y: '-40%', scale: 0.285, z: -10 },
-		{ x: '-91.5%', y: '-40%', scale: 0.285, z: -10 },
 		{ x: '-74.5%', y: 0, scale: 0.375, z: 1 },
+		{ x: '-91.5%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '90%', y: '-40%', scale: 0.285, z: -10 },
+		{ x: '73%', y: 0, scale: 0.35, z: 1 },
 	];
 	// ! LIST OF POSITIONS FOR MOBILLE
 	const mobilePositions: Array<IPosition> = [
@@ -184,7 +128,7 @@ const LaptopCarousel = () => {
 						/>
 						{/* SLIDER IMAGES */}
 						{carouselImages.map((img: string, i: number) => (
-							<CarouselCard
+							<LaptopCarouselCard
 								key={i}
 								positions={positions}
 								initial={positions[i]}
@@ -214,7 +158,7 @@ const LaptopCarousel = () => {
 						/>
 						{/* SLIDER IMAGES */}
 						{carouselImages.map((img: string, i: number) => (
-							<CarouselCard
+							<LaptopCarouselCard
 								key={i}
 								positions={mobilePositions}
 								initial={mobilePositions[i]}
@@ -240,6 +184,53 @@ const LaptopCarousel = () => {
 							/>
 						))}
 					</div>
+				</div>
+			</div>
+			<div className="px-4 md:px-[3rem] xl:px-[4rem] max-w-[1240px] mx-auto flex flex-col text-center justify-center gap-5 py-2 pb-[50px]">
+				<div className="relative">
+					{/* OPACITY-0, JUST TO GET THE HEIGHT THE CONTAINER SHOULD BE */}
+					<motion.div className="space-y-4 opacity-0 relative pointer-events-none">
+						<button className="text-[--fg] font-semibold capitalize">
+							{textData[incrementFactor].heading}
+						</button>
+						<p className="text-[--fg] text-sm lg:text-base">
+							{textData[incrementFactor].text}
+						</p>
+					</motion.div>
+					{/* ACTUALLY DISPLAYED CONTENT */}
+					{textData.map((item, i) => (
+						<AnimatePresence key={i}>
+							{i === incrementFactor && (
+								<motion.div
+									// initial={{ opacity: 0 }}
+									animate={{ opacity: [0, 1], y: [5, 0] }}
+									// exit={{ opacity: [1, 0], y: [0, 15] }}
+									transition={{
+										type: 'tween',
+										duration: 1,
+										ease: 'easeInOut',
+										delay: 0.15,
+									}}
+									key={i}
+									className={`space-y-4 absolute top-0 ${
+										i === incrementFactor ? 'opacity-100' : 'opacity-0'
+									}`}
+								>
+									<button className="text-[--fg] font-semibold capitalize">
+										{item.heading}
+									</button>
+									<p className="text-[--fg] text-sm lg:text-base">
+										{item.text}
+									</p>
+								</motion.div>
+							)}
+						</AnimatePresence>
+					))}
+				</div>
+				<div>
+					<button className="bg-[--brand] rounded-lg py-2 px-4 min-w-[125px] text-[--bg] text-sm lg:text-base">
+						Join Us
+					</button>
 				</div>
 			</div>
 		</div>

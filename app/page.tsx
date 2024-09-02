@@ -5,7 +5,7 @@ export default function Home() {
 		<main className="">
 			<Navbar />
 			<LaptopCarousel />
-			<div className="px-4 md:px-[3rem] xl:px-[4rem] max-w-[1240px] mx-auto flex flex-col text-center justify-center gap-5 py-5 pb-[50px]">
+			{/* <div className="px-4 md:px-[3rem] xl:px-[4rem] max-w-[1240px] mx-auto flex flex-col text-center justify-center gap-5 py-5 pb-[50px]">
 				<button className="text-[--fg] font-semibold">Search</button>
 				<p className="text-[--fg] text-sm lg:text-base">
 					Discover exciting investment opportunities by browsing creator
@@ -18,7 +18,7 @@ export default function Home() {
 						Join Us
 					</button>
 				</div>
-			</div>
+			</div> */}
 		</main>
 	);
 }
