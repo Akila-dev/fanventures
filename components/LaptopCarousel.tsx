@@ -5,7 +5,12 @@ import Image from 'next/image';
 import { useAnimate, motion, AnimatePresence } from 'framer-motion';
 import LaptopCarouselCard from '@/components/LaptopCarouselCard';
 
-const textData: { heading: string; test: string }[] = [
+interface ITextData {
+	heading: string;
+	text: string;
+}
+
+const textData: Array<ITextData> = [
 	{
 		heading: 'search',
 		text: 'Discover exciting investment opportunities by browsing creator fundraising campaigns. Investors can explore various campaigns where creators offer a share of their future income, making it easy to find the right investment.',
@@ -198,34 +203,36 @@ const LaptopCarousel = () => {
 						</p>
 					</motion.div>
 					{/* ACTUALLY DISPLAYED CONTENT */}
-					{textData.map((item, i) => (
-						<AnimatePresence key={i}>
-							{i === incrementFactor && (
-								<motion.div
-									// initial={{ opacity: 0 }}
-									animate={{ opacity: [0, 1], y: [5, 0] }}
-									// exit={{ opacity: [1, 0], y: [0, 15] }}
-									transition={{
-										type: 'tween',
-										duration: 1,
-										ease: 'easeInOut',
-										delay: 0.15,
-									}}
-									key={i}
-									className={`space-y-4 absolute top-0 ${
-										i === incrementFactor ? 'opacity-100' : 'opacity-0'
-									}`}
-								>
-									<button className="text-[--fg] font-semibold capitalize">
-										{item.heading}
-									</button>
-									<p className="text-[--fg] text-sm lg:text-base">
-										{item.text}
-									</p>
-								</motion.div>
-							)}
-						</AnimatePresence>
-					))}
+					{textData.map(
+						(item: { heading: string; text: string }, i: number) => (
+							<AnimatePresence key={i}>
+								{i === incrementFactor && (
+									<motion.div
+										// initial={{ opacity: 0 }}
+										animate={{ opacity: [0, 1], y: [5, 0] }}
+										// exit={{ opacity: [1, 0], y: [0, 15] }}
+										transition={{
+											type: 'tween',
+											duration: 1,
+											ease: 'easeInOut',
+											delay: 0.15,
+										}}
+										key={i}
+										className={`space-y-4 absolute top-0 ${
+											i === incrementFactor ? 'opacity-100' : 'opacity-0'
+										}`}
+									>
+										<button className="text-[--fg] font-semibold capitalize">
+											{item.heading}
+										</button>
+										<p className="text-[--fg] text-sm lg:text-base">
+											{item.text}
+										</p>
+									</motion.div>
+								)}
+							</AnimatePresence>
+						)
+					)}
 				</div>
 				<div>
 					<button className="bg-[--brand] rounded-lg py-2 px-4 min-w-[125px] text-[--bg] text-sm lg:text-base">
