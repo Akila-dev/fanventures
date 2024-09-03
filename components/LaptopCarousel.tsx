@@ -43,10 +43,10 @@ interface IPosition {
 const LaptopCarousel = () => {
 	const carouselImages: string[] = [
 		'/carouselImages/1.jpg',
-		'/carouselImages/2.jpg',
-		'/carouselImages/3.jpg',
-		'/carouselImages/4.jpg',
 		'/carouselImages/5.jpg',
+		'/carouselImages/4.jpg',
+		'/carouselImages/3.jpg',
+		'/carouselImages/2.jpg',
 	];
 	const listedPoints = [0, 4, 3, 2, 1];
 	// ! LIST OF POSITIONS FOR DESKTOP AND TABLETS
